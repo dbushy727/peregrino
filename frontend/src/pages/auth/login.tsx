@@ -1,13 +1,13 @@
-import ApplicationLogo from '@/components/ApplicationLogo'
-import AuthCard from '@/components/AuthCard'
-import AuthSessionStatus from '@/components/AuthSessionStatus'
-import Button from '@/components/Button'
-import GuestLayout from '@/components/Layouts/GuestLayout'
-import Input from '@/components/Input'
-import InputError from '@/components/InputError'
-import Label from '@/components/Label'
+import ApplicationLogo from 'components/ApplicationLogo'
+import AuthCard from 'components/AuthCard'
+import AuthSessionStatus from 'components/AuthSessionStatus'
+import Button from 'components/Button'
+import GuestLayout from 'components/Layouts/GuestLayout'
+import Input from 'components/Input'
+import InputError from 'components/InputError'
+import Label from 'components/Label'
 import Link from 'next/link'
-import { useAuth } from '@/hooks/auth'
+import { useAuth } from 'hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
@@ -22,16 +22,23 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [shouldRemember, setShouldRemember] = useState(false)
-    const [errors, setErrors] = useState([])
-    const [status, setStatus] = useState(null)
+    const [errors, setErrors] = useState<{
+        email: string[]
+        password: string[]
+    }>()
+    const [status, setStatus] = useState<string>()
 
     useEffect(() => {
-        if (router.query.reset?.length > 0 && errors.length === 0) {
-            setStatus(atob(router.query.reset))
+        if (router.query.reset && router.query.reset.length > 0 && !errors) {
+            const reset =
+                typeof router.query.reset === 'string'
+                    ? router.query.reset
+                    : router.query.reset[0]
+            setStatus(atob(reset))
         } else {
-            setStatus(null)
+            setStatus(undefined)
         }
-    })
+    }, [router.query])
 
     const submitForm = async event => {
         event.preventDefault()
@@ -71,7 +78,12 @@ const Login = () => {
                             autoFocus
                         />
 
-                        <InputError messages={errors.email} className="mt-2" />
+                        {errors?.email && (
+                            <InputError
+                                messages={errors.email}
+                                className="mt-2"
+                            />
+                        )}
                     </div>
 
                     {/* Password */}
@@ -88,10 +100,12 @@ const Login = () => {
                             autoComplete="current-password"
                         />
 
-                        <InputError
-                            messages={errors.password}
-                            className="mt-2"
-                        />
+                        {errors?.password && (
+                            <InputError
+                                messages={errors.password}
+                                className="mt-2"
+                            />
+                        )}
                     </div>
 
                     {/* Remember Me */}

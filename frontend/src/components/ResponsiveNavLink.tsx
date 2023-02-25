@@ -1,6 +1,11 @@
 import Link from 'next/link'
+import { ComponentProps } from 'react'
 
-const ResponsiveNavLink = ({ active = false, children, ...props }) => (
+const ResponsiveNavLink = ({
+    active = false,
+    children,
+    ...props
+}: ComponentProps<typeof Link> & { active?: boolean }) => (
     <Link
         {...props}
         className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium leading-5 focus:outline-none transition duration-150 ease-in-out ${

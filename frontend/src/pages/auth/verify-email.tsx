@@ -1,9 +1,9 @@
-import ApplicationLogo from '@/components/ApplicationLogo'
-import AuthCard from '@/components/AuthCard'
-import Button from '@/components/Button'
-import GuestLayout from '@/components/Layouts/GuestLayout'
+import ApplicationLogo from 'components/ApplicationLogo'
+import AuthCard from 'components/AuthCard'
+import Button from 'components/Button'
+import GuestLayout from 'components/Layouts/GuestLayout'
 import Link from 'next/link'
-import { useAuth } from '@/hooks/auth'
+import { useAuth } from 'hooks/auth'
 import { useState } from 'react'
 
 const VerifyEmail = () => {
@@ -12,7 +12,7 @@ const VerifyEmail = () => {
         redirectIfAuthenticated: '/dashboard',
     })
 
-    const [status, setStatus] = useState(null)
+    const [status, setStatus] = useState<string>()
 
     return (
         <GuestLayout>
@@ -22,7 +22,6 @@ const VerifyEmail = () => {
                         <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
                     </Link>
                 }>
-
                 <div className="mb-4 text-sm text-gray-600">
                     Thanks for signing up! Before getting started, could you
                     verify your email address by clicking on the link we just

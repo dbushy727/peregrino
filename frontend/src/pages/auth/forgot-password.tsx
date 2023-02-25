@@ -1,23 +1,23 @@
-import ApplicationLogo from '@/components/ApplicationLogo'
-import AuthCard from '@/components/AuthCard'
-import AuthSessionStatus from '@/components/AuthSessionStatus'
-import Button from '@/components/Button'
-import GuestLayout from '@/components/Layouts/GuestLayout'
-import Input from '@/components/Input'
-import InputError from '@/components/InputError'
-import Label from '@/components/Label'
+import ApplicationLogo from 'components/ApplicationLogo'
+import AuthCard from 'components/AuthCard'
+import AuthSessionStatus from 'components/AuthSessionStatus'
+import Button from 'components/Button'
+import GuestLayout from 'components/Layouts/GuestLayout'
+import Input from 'components/Input'
+import InputError from 'components/InputError'
+import Label from 'components/Label'
 import Link from 'next/link'
-import { useAuth } from '@/hooks/auth'
-import { useState } from 'react'
+import { useAuth } from 'hooks/auth'
+import { FormEvent, useState } from 'react'
 
 const ForgotPassword = () => {
     const { forgotPassword } = useAuth({ middleware: 'guest' })
 
     const [email, setEmail] = useState('')
-    const [errors, setErrors] = useState([])
-    const [status, setStatus] = useState(null)
+    const [errors, setErrors] = useState<{ email: string[] }>()
+    const [status, setStatus] = useState<string>()
 
-    const submitForm = event => {
+    const submitForm = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
         forgotPassword({ email, setErrors, setStatus })
@@ -55,7 +55,12 @@ const ForgotPassword = () => {
                             autoFocus
                         />
 
-                        <InputError messages={errors.email} className="mt-2" />
+                        {errors?.email && (
+                            <InputError
+                                messages={errors.email}
+                                className="mt-2"
+                            />
+                        )}
                     </div>
 
                     <div className="flex items-center justify-end mt-4">

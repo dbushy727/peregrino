@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 
+interface DropdownProps {
+    align?: string
+    width?: string
+    contentClasses?: string
+    trigger: React.ReactNode
+    children: React.ReactNode
+}
 const Dropdown = ({
     align = 'right',
-    width = 48,
+    width = '48',
     contentClasses = 'py-1 bg-white',
     trigger,
     children,
-}) => {
+}: DropdownProps) => {
     let alignmentClasses
 
     switch (width) {
