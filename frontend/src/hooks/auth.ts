@@ -62,7 +62,6 @@ export const useAuth = ({
         password_confirmation: string
         setErrors: ErrorSetter<{ email: string[]; password: string[] }>
     }) => {
-        console.log('registering')
         await csrf()
 
         setErrors(undefined)
