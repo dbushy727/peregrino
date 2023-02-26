@@ -38,7 +38,7 @@ const Login = () => {
         } else {
             setStatus(undefined)
         }
-    }, [router.query])
+    }, [router.query, errors])
 
     const submitForm = async event => {
         event.preventDefault()

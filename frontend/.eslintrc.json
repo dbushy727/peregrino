@@ -1,0 +1,16 @@
+{
+    "extends": "next/core-web-vitals",
+    "plugins": ["react", "prettier"],
+    "rules": {
+        "import/prefer-default-export": 1,
+        "no-console": "warn",
+        "no-unused-expressions": ["error", { "allowTernary": true }],
+        "react/self-closing-comp": 1,
+        "semi": ["error", "never"],
+        "prettier/prettier": [
+            "error",
+            { "endOfLine": "auto" },
+            { "usePrettierrc": true }
+        ]
+    }
+}

@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import axios from 'lib/axios'
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 type ErrorSetter<T extends Record<string, string[]>> = Dispatch<
@@ -34,6 +34,17 @@ export const useAuth = ({
 
                     router.push('/auth/verify-email')
                 }),
+        {
+            onErrorRetry(
+                error: { status: number },
+                key,
+                config,
+                revalidate,
+                revalidateOpts,
+            ) {
+                if (error.status === 401) return
+            },
+        },
     )
 
     const csrf = () => axios.get('/sanctum/csrf-cookie')
@@ -156,13 +167,13 @@ export const useAuth = ({
             .then(response => setStatus(response.data.status))
     }
 
-    const logout = async () => {
+    const logout = useCallback(async () => {
         if (!error && user) {
             await axios.post('/logout').then(() => mutate())
         }
 
         window.location.pathname = '/auth/login'
-    }
+    }, [error, user, mutate])
 
     useEffect(() => {
         if (middleware === 'guest' && redirectIfAuthenticated && user)
@@ -173,7 +184,7 @@ export const useAuth = ({
         )
             router.push(redirectIfAuthenticated || '/')
         if (middleware === 'auth' && (error || !user)) logout()
-    }, [user, error])
+    }, [user, error, redirectIfAuthenticated, logout, middleware, router])
 
     return {
         user,
