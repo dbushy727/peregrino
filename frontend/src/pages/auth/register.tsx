@@ -46,7 +46,7 @@ const Register = () => {
                         <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
                     </Link>
                 }>
-                <form onSubmit={e => submitForm}>
+                <form onSubmit={submitForm}>
                     {/* Name */}
                     <div>
                         <Label htmlFor="name">Name</Label>

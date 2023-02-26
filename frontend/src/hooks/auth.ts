@@ -50,23 +50,25 @@ export const useAuth = ({
     const csrf = () => axios.get('/sanctum/csrf-cookie')
 
     const register = async ({
-        setErrors,
+        name,
         email,
         password,
+        password_confirmation,
+        setErrors,
     }: {
         name: string
         email: string
         password: string
         password_confirmation: string
-    } & {
         setErrors: ErrorSetter<{ email: string[]; password: string[] }>
     }) => {
+        console.log('registering')
         await csrf()
 
         setErrors(undefined)
 
         axios
-            .post('/register', { email, password })
+            .post('/register', { name, email, password, password_confirmation })
             .then(() => mutate())
             .catch(error => {
                 if (error.response.status !== 422) throw error
@@ -76,11 +78,11 @@ export const useAuth = ({
     }
 
     const login = async ({
-        setErrors,
-        setStatus,
         email,
         password,
         remember,
+        setErrors,
+        setStatus,
     }: {
         setErrors: ErrorSetter<{ email: string[]; password: string[] }>
         setStatus: StatusSetter
@@ -104,9 +106,9 @@ export const useAuth = ({
     }
 
     const forgotPassword = async ({
+        email,
         setErrors,
         setStatus,
-        email,
     }: {
         setErrors: ErrorSetter<{ email: string[] }>
         setStatus: StatusSetter
@@ -146,7 +148,12 @@ export const useAuth = ({
         setStatus(undefined)
 
         axios
-            .post('/reset-password', { token: router.query.token, email })
+            .post('/reset-password', {
+                token: router.query.token,
+                email,
+                password,
+                password_confirmation,
+            })
             .then(response =>
                 router.push('/auth/login?reset=' + btoa(response.data.status)),
             )
