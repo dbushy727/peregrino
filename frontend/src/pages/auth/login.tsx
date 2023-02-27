@@ -54,6 +54,13 @@ const Login = () => {
 
     return (
         <GuestLayout>
+            <div className="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                <Link
+                    href="/auth/register"
+                    className="ml-4 text-sm text-gray-700 underline">
+                    Sign Up
+                </Link>
+            </div>
             <AuthCard
                 logo={
                     <Link href="/">
