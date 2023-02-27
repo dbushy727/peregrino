@@ -8,7 +8,7 @@ export default function Home() {
     return (
         <>
             <Head>
-                <title>Laravel</title>
+                <title>Peregrino</title>
             </Head>
 
             <div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
