@@ -1,7 +1,9 @@
 import Axios from 'axios'
 
 const axios = Axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+    baseURL:
+        process.env.NEXT_PUBLIC_BACKEND_URL ||
+        `https://api-${process.env.VERCEL_GIT_COMMIT_REF}.penguin.nyc`,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
     },
